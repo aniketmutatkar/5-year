@@ -345,6 +345,27 @@
     color: var(--muted);
     font-weight: 300;
   }
+  .card-address-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .maps-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--card-accent);
+    color: white;
+    text-decoration: none;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .maps-link:active { transform: scale(0.9); opacity: 0.8; }
 
   .card-divider {
     height: 1px;
@@ -627,6 +648,7 @@ const cards = [
   {
     type: 'stop', accent: '--c1', section: 'Bakery Tour',
     label: 'Stop 01', name: 'Still Life', address: '573 Sackett St, Gowanus',
+    maps: 'https://maps.google.com/?q=Still+Life+573+Sackett+St+Brooklyn+NY',
     story: 'Opened September 2025, Still Life is a coffee house and working art studio in one — ceramics kiln in the back, natural light flooding the front. Partners Coffee beans, matcha, rotating pastries. The concept is simple: coffee and making things, in the same room, at the same time.',
     fact: 'They run what they call an "Art Bar" — a rotating menu of self-guided art activities you can just pick up and do while you drink your coffee. Watercolor, drawing, ceramics — it changes. You don\'t need to sign up or be good at anything. You just sit down and make something.',
     orders: [
@@ -638,6 +660,7 @@ const cards = [
   {
     type: 'stop', accent: '--c2', section: 'Bakery Tour',
     label: 'Stop 02', name: 'Brooklyn French Bakers', address: '273 Columbia St, Carroll Gardens',
+    maps: 'https://maps.google.com/?q=Brooklyn+French+Bakers+273+Columbia+St+Brooklyn+NY',
     story: 'In 2021, three French professionals — a banker, a civil engineer, and a chemist — moved to Brooklyn for their kids\' French dual-language school. Homesick for real croissants, they each earned their French baking certification (CAP de Boulanger) from scratch. None had ever baked professionally before.',
     fact: 'Less than a year after opening, they beat ~500 NYC bakeries to win French Morning NY\'s "Best Croissant in New York" 2023. Won People\'s Choice again in 2025. The butter is imported from France.',
     orders: [
@@ -649,6 +672,7 @@ const cards = [
   {
     type: 'stop', accent: '--c3', section: 'Bakery Tour',
     label: 'Stop 03 · Lunch', name: 'Court Street Grocers', address: '485 Court St, Carroll Gardens',
+    maps: 'https://maps.google.com/?q=Court+Street+Grocers+485+Court+St+Brooklyn+NY',
     story: 'Started in 2010 on this exact Carroll Gardens block. Built on one principle: exceptional bread and exceptional meat from the best producers in the city. Balthazar for the French loaf, Caputo\'s for seeded rolls. Everything else — roast beef, corned beef, come-back sauce — made in-house.',
     fact: 'The Infatuation called it "the best sandwich shop you\'ve never been to." The sandwiches have names like The Uncle Grandpa, The Vegitalian, and The Jawn. They all deliver.',
     orders: [
@@ -660,6 +684,7 @@ const cards = [
   {
     type: 'stop', accent: '--c4', section: 'Bakery Tour',
     label: 'Stop 04', name: 'Náko', address: '18 Columbia Pl, Brooklyn Heights',
+    maps: 'https://maps.google.com/?q=Nako+18+Columbia+Pl+Brooklyn+NY',
     story: 'Opened early 2025 by Okan, a Turkish owner, tucked on one of Brooklyn Heights\' quietest cobblestone side streets — the Willowtown micro-neighborhood. The ceramic mugs are handmade by his wife. Free stickers at the counter.',
     fact: 'The Nako Latte uses a house-made milk blend — whole and cashew milk mixed in-house. It\'s what gives the drink its silky body. You can\'t get it anywhere else.',
     orders: [
@@ -671,6 +696,7 @@ const cards = [
   {
     type: 'stop', accent: '--c5', section: 'Bakery Tour',
     label: 'Stop 05', name: 'Ferrane Bakery', address: '57 Clark St, Brooklyn Heights',
+    maps: 'https://maps.google.com/?q=Ferrane+Bakery+57+Clark+St+Brooklyn+NY',
     story: 'Opened May 2025 by Emon Maasho (Eritrean-Swedish) and Selim Adira (Moroccan-Swedish). "Ferrane" means community oven in Moroccan Arabic. Head baker Mathilda Jacob was named Young World Champion in Baking in Iceland. All coffee sourced exclusively from East African farms — honoring Emon\'s grandfather\'s roastery in Eritrea.',
     fact: 'Emon\'s mother flew in to personally teach the staff how to make himbasha — traditional Eritrean sweet bread. It appears on the menu when she visits. Nowhere else in Brooklyn serves this.',
     orders: [
@@ -682,6 +708,7 @@ const cards = [
   {
     type: 'stop', accent: '--c6', section: 'Bakery Tour',
     label: 'Stop 06 · Final', name: 'Almondine', address: '85 Water St, DUMBO',
+    maps: 'https://maps.google.com/?q=Almondine+85+Water+St+Brooklyn+NY',
     story: 'Chef Hervé Poussot was the pastry chef at Le Bernardin — NYC\'s only three-Michelin-star restaurant — before opening Almondine in 2004, when DUMBO was still mostly warehouses. NY Magazine named it the best bakery in New York City. Everything baked on-site daily. Popular items sell out before noon.',
     fact: 'Poussot is known for quietly handing madeleines to toddlers waiting with their parents, and for sending molten chocolate cakes to neighbors during hard times.',
     orders: [
@@ -693,6 +720,7 @@ const cards = [
   {
     type: 'stop', accent: '--c7', section: 'Evening',
     label: 'Pre-Aire · 5:45 PM', name: 'Terroir', address: '24 Harrison St, Tribeca',
+    maps: 'https://maps.google.com/?q=Terroir+24+Harrison+St+New+York+NY',
     story: 'A serious wine bar, 4 minutes from Aire. The staff are genuine sommeliers who guide you through the list — not just pour whatever. Small food menu: charcuterie, sardines, bread, cheese. Exactly the right weight before the baths. One reviewer put it simply: "no frills all thrills."',
     fact: 'Keep it light here — one or two glasses, a charcuterie board between you. You\'re going into hot thermal baths in an hour. Save the appetite for after.',
     orders: [
@@ -704,6 +732,7 @@ const cards = [
   {
     type: 'aire', accent: '--c8', section: 'Evening',
     label: 'The Main Event · 7:00 PM', name: 'AIRE Ancient Baths', address: '88 Franklin St, Tribeca',
+    maps: 'https://maps.google.com/?q=AIRE+Ancient+Baths+88+Franklin+St+New+York+NY',
     story: 'A restored 1883 textile factory. 16,000 sq ft of candlelit calm. Original brick, timber beams, iron columns. Thousands of flickering candles. Orange blossom in the air. Music that plays even underwater. Phones locked away at the door.',
     package: 'Escape Together 30\' · $490/couple · 120 min\nThermal baths + 30-min couples massage in a private room + refreshing juice. Towels, robes, non-slip shoes, L\'Occitane products all provided.',
     baths: [
@@ -789,7 +818,10 @@ function renderCard(data) {
       <div class="card-head">
         <div class="stop-label">${data.label}</div>
         <div class="card-name">${data.name}</div>
-        <div class="card-address">${data.address}</div>
+        <div class="card-address-row">
+          <span class="card-address">${data.address}</span>
+          <a class="maps-link" href="${data.maps}" target="_blank" rel="noopener" title="Open in Maps">📍</a>
+        </div>
       </div>
       <div class="card-divider"></div>
       <div class="card-body">
@@ -821,7 +853,10 @@ function renderCard(data) {
       <div class="card-head">
         <div class="stop-label">${data.label}</div>
         <div class="card-name">${data.name}</div>
-        <div class="card-address">${data.address}</div>
+        <div class="card-address-row">
+          <span class="card-address">${data.address}</span>
+          <a class="maps-link" href="${data.maps}" target="_blank" rel="noopener" title="Open in Maps">📍</a>
+        </div>
       </div>
       <div class="card-divider"></div>
       <div class="card-body">
