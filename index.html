@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Brooklyn Day">
+<meta name="theme-color" content="#F0E8DC">
+<title>Our Brooklyn Day ♡</title>
+
+<!-- PWA Manifest inline via blob -->
+<script>
+  const manifest = {
+    name: "Our Brooklyn Day",
+    short_name: "Brooklyn Day",
+    description: "March 14, 2026 — A day worth remembering.",
+    start_url: ".",
+    display: "standalone",
+    background_color: "#F0E8DC",
+    theme_color: "#F0E8DC",
+    orientation: "portrait",
+    icons: [
+      {
+        src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%23F0E8DC'/%3E%3Ctext x='256' y='320' text-anchor='middle' font-size='280' font-family='serif'%3E%E2%99%A1%3C/text%3E%3C/svg%3E",
+        sizes: "512x512",
+        type: "image/svg+xml",
+        purpose: "any maskable"
+      }
+    ]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+  const manifestURL = URL.createObjectURL(blob);
+  const link = document.createElement('link');
+  link.rel = 'manifest';
+  link.href = manifestURL;
+  document.currentScript.parentNode.insertBefore(link, document.currentScript);
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:     #F0E8DC;
+    --paper:  #FAF6EF;
+    --ink:    #1C1612;
+    --muted:  #8A7968;
+    --rule:   #DDD4C4;
+    --shadow: rgba(60, 40, 20, 0.12);
+
+    --c1:  #D4541A;
+    --c2:  #2E6B50;
+    --c3:  #A0461C;
+    --c4:  #1F4F82;
+    --c5:  #6B3A8C;
+    --c6:  #C4921A;
+    --c7:  #8C3A3A;
+    --c8:  #3A6B6B;
+    --cr1: #D4541A;
+    --cr2: #2E6B50;
+    --cr3: #A0461C;
+    --cr4: #1F4F82;
+    --cr5: #6B3A8C;
+  }
+
+  html { height: 100%; }
+
+  body {
+    height: 100%;
+    min-height: 100dvh;
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+
+  /* grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* ── SPLASH SCREEN ── */
+  #splash {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    z-index: 500;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  #splash.hide {
+    opacity: 0;
+    transform: scale(1.04);
+    pointer-events: none;
+  }
+  .splash-heart {
+    font-size: 3rem;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+  .splash-title {
+    font-family: 'Caveat', cursive;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-align: center;
+  }
+  .splash-date {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .splash-sub {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 4px;
+  }
+  .splash-btn {
+    margin-top: 24px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-radius: 100px;
+    padding: 14px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .splash-btn:active { transform: scale(0.96); opacity: 0.85; }
+  .splash-divider {
+    width: 32px;
+    height: 1px;
+    background: var(--rule);
+    margin: 4px 0;
+  }
+
+  /* ── MAIN APP ── */
+  #app {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: env(safe-area-inset-top, 12px) 16px max(env(safe-area-inset-bottom, 12px), 12px);
+    padding-top: max(env(safe-area-inset-top, 12px), 16px);
+    gap: 12px;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .topbar-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .topbar-title {
+    font-family: 'Caveat', cursive;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .topbar-sub {
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .topbar-home {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    color: var(--muted);
+    transition: color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .topbar-home:active { color: var(--ink); }
+
+  /* ── SECTION PILLS ── */
+  .section-pills {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+    max-width: 420px;
+    flex-shrink: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .section-pills::-webkit-scrollbar { display: none; }
+  .pill {
+    flex-shrink: 0;
+    padding: 5px 12px;
+    border-radius: 100px;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    border: 1.5px solid var(--rule);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .pill.active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+
+  /* ── DOTS ── */
+  .dots {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 420px;
+    width: 100%;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--rule);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .dot.active {
+    background: var(--card-accent, var(--ink));
+    width: 18px;
+    border-radius: 3px;
+  }
+  .dot.visited { background: var(--muted); opacity: 0.4; }
+
+  /* ── CARD AREA ── */
+  .card-area {
+    flex: 1;
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+  }
+
+  .card-ghost {
+    position: absolute;
+    width: calc(100% - 28px);
+    height: 94%;
+    background: var(--paper);
+    border-radius: 26px;
+  }
+  .card-ghost-2 { transform: translateY(10px) scale(0.94); opacity: 0.45; box-shadow: 0 4px 20px var(--shadow); }
+  .card-ghost-1 { transform: translateY(5px) scale(0.97); opacity: 0.7; box-shadow: 0 4px 20px var(--shadow); }
+
+  /* ── CARD ── */
+  .card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: var(--paper);
+    border-radius: 26px;
+    box-shadow: 0 8px 48px var(--shadow), 0 2px 8px var(--shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    will-change: transform, opacity;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .card:active { cursor: grabbing; }
+
+  .card.anim-slide-left  { animation: slideLeft  0.32s cubic-bezier(0.4, 0, 0.6, 1) forwards; }
+  .card.anim-slide-right { animation: slideRight 0.32s cubic-bezier(0.4, 0, 0.6, 1) forwards; }
+  .card.anim-enter-left  { animation: enterLeft  0.38s cubic-bezier(0.34, 1.42, 0.64, 1) forwards; }
+  .card.anim-enter-right { animation: enterRight 0.38s cubic-bezier(0.34, 1.42, 0.64, 1) forwards; }
+
+  @keyframes slideLeft  { to { transform: translateX(-112%) rotate(-5deg); opacity: 0; } }
+  @keyframes slideRight { to { transform: translateX(112%) rotate(5deg); opacity: 0; } }
+  @keyframes enterLeft  { from { transform: translateX(112%) rotate(5deg); opacity: 0; } to { transform: none; opacity: 1; } }
+  @keyframes enterRight { from { transform: translateX(-112%) rotate(-5deg); opacity: 0; } to { transform: none; opacity: 1; } }
+
+  .card-stripe {
+    height: 7px;
+    background: var(--card-accent);
+    border-radius: 26px 26px 0 0;
+    flex-shrink: 0;
+  }
+
+  .card-head {
+    padding: 14px 20px 11px;
+    flex-shrink: 0;
+  }
+  .stop-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--card-accent);
+    font-weight: 500;
+    margin-bottom: 3px;
+  }
+  .card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.45rem, 5vw, 1.75rem);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.05;
+    margin-bottom: 3px;
+  }
+  .card-address {
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .card-divider {
+    height: 1px;
+    background: var(--rule);
+    margin: 0 20px;
+    flex-shrink: 0;
+  }
+
+  .card-body {
+    padding: 13px 20px 16px;
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    overscroll-behavior: contain;
+  }
+  .card-body::-webkit-scrollbar { display: none; }
+
+  .section-label {
+    font-size: 0.57rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+
+  .story {
+    font-size: 0.86rem;
+    line-height: 1.68;
+    color: #3A2E22;
+    font-weight: 300;
+  }
+
+  .fact {
+    background: #F2EAD8;
+    border-radius: 14px;
+    padding: 10px 13px;
+    border-left: 3px solid var(--card-accent);
+  }
+  .fact-label {
+    font-size: 0.57rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--card-accent);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .fact-text {
+    font-size: 0.82rem;
+    line-height: 1.58;
+    color: #3A2E22;
+    font-weight: 300;
+  }
+
+  .order-list { display: flex; flex-direction: column; gap: 7px; }
+  .order-item { display: flex; gap: 10px; align-items: flex-start; }
+  .order-pill {
+    background: var(--card-accent);
+    color: white;
+    font-size: 0.58rem;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    letter-spacing: 0.04em;
+  }
+  .order-name { font-size: 0.84rem; font-weight: 500; color: var(--ink); line-height: 1.3; }
+  .order-desc { font-size: 0.73rem; color: var(--muted); font-style: italic; margin-top: 1px; line-height: 1.4; }
+
+  /* Aire baths */
+  .bath-list { display: flex; flex-direction: column; gap: 6px; }
+  .bath-item { display: flex; gap: 10px; align-items: center; }
+  .bath-tag {
+    background: var(--card-accent);
+    color: white;
+    font-size: 0.52rem;
+    font-weight: 500;
+    padding: 3px 7px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    letter-spacing: 0.06em;
+    min-width: 42px;
+    text-align: center;
+  }
+  .bath-name { font-size: 0.84rem; font-weight: 500; color: var(--ink); }
+  .bath-desc { font-size: 0.72rem; color: var(--muted); font-style: italic; }
+
+  /* Round cards */
+  .round-hero {
+    text-align: center;
+    padding: 4px 0 8px;
+  }
+  .round-big {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(4rem, 16vw, 5rem);
+    font-weight: 600;
+    color: var(--card-accent);
+    opacity: 0.13;
+    line-height: 1;
+    margin-bottom: -10px;
+  }
+  .round-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 5vw, 1.7rem);
+    font-weight: 700;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .round-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 6px;
+    font-weight: 300;
+    font-style: italic;
+  }
+  .question-list { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+  .question-item {
+    background: #F2EAD8;
+    border-radius: 16px;
+    padding: 13px 15px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .q-num {
+    font-family: 'Caveat', cursive;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--card-accent);
+    line-height: 1.1;
+    flex-shrink: 0;
+    min-width: 18px;
+  }
+  .q-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--ink);
+    font-style: italic;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 0 2px;
+  }
+  .nav-btn {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    border: none;
+    background: var(--paper);
+    box-shadow: 0 2px 14px var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.15rem;
+    color: var(--ink);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .nav-btn:active { transform: scale(0.9); }
+  .nav-btn:disabled { opacity: 0.2; cursor: default; }
+  .nav-info { text-align: center; }
+  .nav-counter {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  .nav-section-name {
+    display: block;
+    font-size: 0.62rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 1px;
+    opacity: 0.7;
+  }
+
+  /* ── INSTALL BANNER ── */
+  #install-banner {
+    position: fixed;
+    bottom: max(env(safe-area-inset-bottom, 0px), 0px);
+    left: 0; right: 0;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    z-index: 200;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  #install-banner.show { transform: translateY(0); }
+  .install-text { font-size: 0.8rem; line-height: 1.4; }
+  .install-text strong { display: block; font-size: 0.85rem; margin-bottom: 2px; }
+  .install-actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .install-btn {
+    padding: 8px 14px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .install-btn.primary { background: var(--paper); color: var(--ink); }
+  .install-btn.dismiss { background: transparent; color: rgba(255,255,255,0.5); }
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash-heart">♡</div>
+  <div class="splash-title">Our Brooklyn Day</div>
+  <div class="splash-date">Saturday, March 14 · 2026</div>
+  <div class="splash-divider"></div>
+  <div class="splash-sub">Happy 5 Year Anniversary ♡</div>
+  <button class="splash-btn" id="splash-btn">Let's go →</button>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-title">Our Brooklyn Day ♡</div>
+      <div class="topbar-sub" id="topbar-sub">Mar 14, 2026</div>
+    </div>
+    <button class="topbar-home" id="home-btn" title="Back to start">⌂</button>
+  </div>
+
+  <div class="section-pills" id="pills"></div>
+  <div class="dots" id="dots"></div>
+
+  <div class="card-area">
+    <div class="card-ghost card-ghost-2"></div>
+    <div class="card-ghost card-ghost-1"></div>
+    <div class="card" id="card"></div>
+  </div>
+
+  <div class="nav">
+    <button class="nav-btn" id="prev">←</button>
+    <div class="nav-info">
+      <span class="nav-counter" id="counter"></span>
+      <span class="nav-section-name" id="nav-section"></span>
+    </div>
+    <button class="nav-btn" id="next">→</button>
+  </div>
+</div>
+
+<!-- INSTALL BANNER -->
+<div id="install-banner">
+  <div class="install-text">
+    <strong>Add to Home Screen</strong>
+    Tap Share → "Add to Home Screen" to install
+  </div>
+  <div class="install-actions">
+    <button class="install-btn primary" id="install-ok">Got it</button>
+    <button class="install-btn dismiss" id="install-dismiss">✕</button>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const cards = [
+  {
+    type: 'stop', accent: '--c1', section: 'Bakery Tour',
+    label: 'Stop 01', name: 'Still Life', address: '573 Sackett St, Gowanus',
+    story: 'Opened September 2025, Still Life is a coffee house and working art studio in one — ceramics kiln in the back, natural light flooding the front. Partners Coffee beans, matcha, rotating pastries. The concept is simple: coffee and making things, in the same room, at the same time.',
+    fact: 'They run what they call an "Art Bar" — a rotating menu of self-guided art activities you can just pick up and do while you drink your coffee. Watercolor, drawing, ceramics — it changes. You don\'t need to sign up or be good at anything. You just sit down and make something.',
+    orders: [
+      { name: 'Matcha Latte', desc: 'The reason you\'re here first' },
+      { name: 'Cortado', desc: 'Partners beans, clean and balanced' },
+      { name: 'Seasonal Pastry', desc: 'Whatever\'s in the case' },
+    ]
+  },
+  {
+    type: 'stop', accent: '--c2', section: 'Bakery Tour',
+    label: 'Stop 02', name: 'Brooklyn French Bakers', address: '273 Columbia St, Carroll Gardens',
+    story: 'In 2021, three French professionals — a banker, a civil engineer, and a chemist — moved to Brooklyn for their kids\' French dual-language school. Homesick for real croissants, they each earned their French baking certification (CAP de Boulanger) from scratch. None had ever baked professionally before.',
+    fact: 'Less than a year after opening, they beat ~500 NYC bakeries to win French Morning NY\'s "Best Croissant in New York" 2023. Won People\'s Choice again in 2025. The butter is imported from France.',
+    orders: [
+      { name: 'Plain Croissant', desc: 'The award-winner — near-caramelized exterior' },
+      { name: 'Puff Brioche', desc: 'The neighborhood obsession' },
+      { name: 'Chocolate Croissant', desc: 'Crispy layers, not soggy' },
+    ]
+  },
+  {
+    type: 'stop', accent: '--c3', section: 'Bakery Tour',
+    label: 'Stop 03 · Lunch', name: 'Court Street Grocers', address: '485 Court St, Carroll Gardens',
+    story: 'Started in 2010 on this exact Carroll Gardens block. Built on one principle: exceptional bread and exceptional meat from the best producers in the city. Balthazar for the French loaf, Caputo\'s for seeded rolls. Everything else — roast beef, corned beef, come-back sauce — made in-house.',
+    fact: 'The Infatuation called it "the best sandwich shop you\'ve never been to." The sandwiches have names like The Uncle Grandpa, The Vegitalian, and The Jawn. They all deliver.',
+    orders: [
+      { name: 'The Reuben', desc: 'House-corned beef brisket, swiss, kraut, come-back sauce' },
+      { name: 'The Vegitalian', desc: 'Roasted squash, multiple cheeses, Duke\'s mayo on seeded roll' },
+      { name: 'Turkish Delight', desc: 'Turkey, muenster, slaw, sour pickles on rye' },
+    ]
+  },
+  {
+    type: 'stop', accent: '--c4', section: 'Bakery Tour',
+    label: 'Stop 04', name: 'Náko', address: '18 Columbia Pl, Brooklyn Heights',
+    story: 'Opened early 2025 by Okan, a Turkish owner, tucked on one of Brooklyn Heights\' quietest cobblestone side streets — the Willowtown micro-neighborhood. The ceramic mugs are handmade by his wife. Free stickers at the counter.',
+    fact: 'The Nako Latte uses a house-made milk blend — whole and cashew milk mixed in-house. It\'s what gives the drink its silky body. You can\'t get it anywhere else.',
+    orders: [
+      { name: 'Nako Latte', desc: 'Cardamom syrup + house whole/cashew milk blend' },
+      { name: 'Matcha Latte', desc: 'Perfectly balanced, not too sweet' },
+      { name: 'Olive Oil Cake', desc: 'Dense, moist, lightly citrusy' },
+    ]
+  },
+  {
+    type: 'stop', accent: '--c5', section: 'Bakery Tour',
+    label: 'Stop 05', name: 'Ferrane Bakery', address: '57 Clark St, Brooklyn Heights',
+    story: 'Opened May 2025 by Emon Maasho (Eritrean-Swedish) and Selim Adira (Moroccan-Swedish). "Ferrane" means community oven in Moroccan Arabic. Head baker Mathilda Jacob was named Young World Champion in Baking in Iceland. All coffee sourced exclusively from East African farms — honoring Emon\'s grandfather\'s roastery in Eritrea.',
+    fact: 'Emon\'s mother flew in to personally teach the staff how to make himbasha — traditional Eritrean sweet bread. It appears on the menu when she visits. Nowhere else in Brooklyn serves this.',
+    orders: [
+      { name: 'Cardamom Bun', desc: 'Soft knotted dough, deep cardamom warmth' },
+      { name: 'Princess Cake', desc: 'Vanilla sponge, raspberry jam, whipped cream, marzipan dome' },
+      { name: 'Coconut Chocolate Bun', desc: 'Same pillowy dough, dark cocoa' },
+    ]
+  },
+  {
+    type: 'stop', accent: '--c6', section: 'Bakery Tour',
+    label: 'Stop 06 · Final', name: 'Almondine', address: '85 Water St, DUMBO',
+    story: 'Chef Hervé Poussot was the pastry chef at Le Bernardin — NYC\'s only three-Michelin-star restaurant — before opening Almondine in 2004, when DUMBO was still mostly warehouses. NY Magazine named it the best bakery in New York City. Everything baked on-site daily. Popular items sell out before noon.',
+    fact: 'Poussot is known for quietly handing madeleines to toddlers waiting with their parents, and for sending molten chocolate cakes to neighbors during hard times.',
+    orders: [
+      { name: 'Almond Croissant', desc: 'Widely called the best in NYC — get here before noon' },
+      { name: 'Chocolate Éclair', desc: 'Bon Appétit: best in Brooklyn' },
+      { name: 'Fruit Tart', desc: 'Buttery shell, custard, seasonal fruit' },
+    ]
+  },
+  {
+    type: 'stop', accent: '--c7', section: 'Evening',
+    label: 'Pre-Aire · 5:45 PM', name: 'Terroir', address: '24 Harrison St, Tribeca',
+    story: 'A serious wine bar, 4 minutes from Aire. The staff are genuine sommeliers who guide you through the list — not just pour whatever. Small food menu: charcuterie, sardines, bread, cheese. Exactly the right weight before the baths. One reviewer put it simply: "no frills all thrills."',
+    fact: 'Keep it light here — one or two glasses, a charcuterie board between you. You\'re going into hot thermal baths in an hour. Save the appetite for after.',
+    orders: [
+      { name: 'A glass of something', desc: 'Ask the sommelier — tell them it\'s a special occasion' },
+      { name: 'Charcuterie board', desc: 'The move — light but satisfying' },
+      { name: 'Sardines + bread', desc: 'If you\'re feeling adventurous' },
+    ]
+  },
+  {
+    type: 'aire', accent: '--c8', section: 'Evening',
+    label: 'The Main Event · 7:00 PM', name: 'AIRE Ancient Baths', address: '88 Franklin St, Tribeca',
+    story: 'A restored 1883 textile factory. 16,000 sq ft of candlelit calm. Original brick, timber beams, iron columns. Thousands of flickering candles. Orange blossom in the air. Music that plays even underwater. Phones locked away at the door.',
+    package: 'Escape Together 30\' · $490/couple · 120 min\nThermal baths + 30-min couples massage in a private room + refreshing juice. Towels, robes, non-slip shoes, L\'Occitane products all provided.',
+    baths: [
+      { tag: 'HOT', name: 'Caldarium · 104°F', desc: 'Start here — opens everything up' },
+      { tag: 'WARM', name: 'Tepidarium · 97°F', desc: 'Beneath a dramatic skylight' },
+      { tag: 'FLOAT', name: 'Flotarium · 98°F', desc: 'Dense saltwater — you float effortlessly' },
+      { tag: 'STEAM', name: 'Vaporium', desc: 'Eucalyptus aromatherapy steam room' },
+      { tag: 'COLD', name: 'Frigidarium · 55°F', desc: 'Pair with the steam room' },
+    ]
+  },
+  {
+    type: 'round', accent: '--cr1', section: '5 Years in 5 Rounds',
+    roundNum: '01', label: '5 Years in 5 Rounds',
+    name: 'Remember When', desc: 'Start here. Warm up. Go back to the beginning.',
+    questions: [
+      'What\'s your favorite memory from our first year together that you don\'t think I know is your favorite?',
+      'What\'s something small from early on — a moment, a detail, a feeling — that you still think about?',
+    ]
+  },
+  {
+    type: 'round', accent: '--cr2', section: '5 Years in 5 Rounds',
+    roundNum: '02', label: '5 Years in 5 Rounds',
+    name: 'You, Through My Eyes', desc: 'Things you\'ve noticed but maybe never said out loud.',
+    questions: [
+      'What\'s something about me that has genuinely surprised you over these 5 years — something you didn\'t see coming?',
+      'How am I different now from the person you met — and do you think any of that is because of us?',
+    ]
+  },
+  {
+    type: 'round', accent: '--cr3', section: '5 Years in 5 Rounds',
+    roundNum: '03', label: '5 Years in 5 Rounds',
+    name: 'Proud Of Us', desc: 'What you\'ve built. What you got through together.',
+    questions: [
+      'What\'s something we built or got through together that you don\'t think we talk about enough?',
+      'What\'s a moment where you thought — yeah, we\'re actually really good at this?',
+    ]
+  },
+  {
+    type: 'round', accent: '--cr4', section: '5 Years in 5 Rounds',
+    roundNum: '04', label: '5 Years in 5 Rounds',
+    name: 'Right Now', desc: 'Pull back to the present. This moment, this life.',
+    questions: [
+      'What\'s something about our life together right now — something ordinary — that you never want to forget?',
+      'What does a regular Tuesday with me feel like — and why does that matter to you?',
+    ]
+  },
+  {
+    type: 'round', accent: '--cr5', section: '5 Years in 5 Rounds',
+    roundNum: '05', label: '5 Years in 5 Rounds',
+    name: 'The Next 5', desc: 'Where you\'re going. What you\'re building toward.',
+    questions: [
+      'What\'s one thing you want us to actually do together in the next 5 years — something we keep saying we will?',
+      'Where do you want us to be in 5 years — not practically, but feeling-wise?',
+    ]
+  },
+];
+
+// sections for pills
+const sections = [...new Set(cards.map(c => c.section))];
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+let current = 0;
+let isAnimating = false;
+
+// ── ELEMENTS ──────────────────────────────────────────────────────────────
+const cardEl    = document.getElementById('card');
+const dotsEl    = document.getElementById('dots');
+const pillsEl   = document.getElementById('pills');
+const counterEl = document.getElementById('counter');
+const navSec    = document.getElementById('nav-section');
+const prevBtn   = document.getElementById('prev');
+const nextBtn   = document.getElementById('next');
+const topbarSub = document.getElementById('topbar-sub');
+
+// ── RENDER ─────────────────────────────────────────────────────────────────
+function renderCard(data) {
+  const accent = `var(${data.accent})`;
+  cardEl.style.setProperty('--card-accent', accent);
+
+  if (data.type === 'stop' || data.type === 'terroir') {
+    cardEl.innerHTML = `
+      <div class="card-stripe"></div>
+      <div class="card-head">
+        <div class="stop-label">${data.label}</div>
+        <div class="card-name">${data.name}</div>
+        <div class="card-address">${data.address}</div>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-body">
+        <div>
+          <div class="section-label">The Story</div>
+          <p class="story">${data.story}</p>
+        </div>
+        <div class="fact">
+          <div class="fact-label">Did you know?</div>
+          <p class="fact-text">${data.fact}</p>
+        </div>
+        <div>
+          <div class="section-label">Order This</div>
+          <div class="order-list">
+            ${data.orders.map((o,i) => `
+              <div class="order-item">
+                <span class="order-pill">${i+1}</span>
+                <div>
+                  <div class="order-name">${o.name}</div>
+                  <div class="order-desc">${o.desc}</div>
+                </div>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+  } else if (data.type === 'aire') {
+    cardEl.innerHTML = `
+      <div class="card-stripe"></div>
+      <div class="card-head">
+        <div class="stop-label">${data.label}</div>
+        <div class="card-name">${data.name}</div>
+        <div class="card-address">${data.address}</div>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-body">
+        <div>
+          <div class="section-label">The Space</div>
+          <p class="story">${data.story}</p>
+        </div>
+        <div class="fact">
+          <div class="fact-label">Your Package</div>
+          <p class="fact-text">${data.package.replace(/\n/g,'<br>')}</p>
+        </div>
+        <div>
+          <div class="section-label">The Baths</div>
+          <div class="bath-list">
+            ${data.baths.map(b => `
+              <div class="bath-item">
+                <span class="bath-tag">${b.tag}</span>
+                <div>
+                  <div class="bath-name">${b.name}</div>
+                  <div class="bath-desc">${b.desc}</div>
+                </div>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+  } else if (data.type === 'round') {
+    cardEl.innerHTML = `
+      <div class="card-stripe"></div>
+      <div class="card-head">
+        <div class="stop-label">${data.label}</div>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-body">
+        <div class="round-hero">
+          <div class="round-big">${data.roundNum}</div>
+          <div class="round-name">${data.name}</div>
+          <div class="round-desc">${data.desc}</div>
+        </div>
+        <div class="question-list">
+          ${data.questions.map((q,i) => `
+            <div class="question-item">
+              <div class="q-num">${i+1}</div>
+              <div class="q-text">${q}</div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+  }
+}
+
+function buildDots() {
+  const section = cards[current].section;
+  const sectionCards = cards.filter(c => c.section === section);
+  const sectionStart = cards.findIndex(c => c.section === section);
+  const localIndex = current - sectionStart;
+
+  dotsEl.innerHTML = '';
+  dotsEl.style.setProperty('--card-accent', `var(${cards[current].accent})`);
+
+  sectionCards.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === localIndex ? ' active' : i < localIndex ? ' visited' : '');
+    d.onclick = () => goTo(sectionStart + i);
+    dotsEl.appendChild(d);
+  });
+}
+
+function buildPills() {
+  pillsEl.innerHTML = '';
+  sections.forEach(sec => {
+    const btn = document.createElement('button');
+    btn.className = 'pill' + (sec === cards[current].section ? ' active' : '');
+    btn.textContent = sec;
+    btn.onclick = () => {
+      const idx = cards.findIndex(c => c.section === sec);
+      goTo(idx);
+    };
+    pillsEl.appendChild(btn);
+  });
+}
+
+function updateNav() {
+  counterEl.textContent = `${current + 1} / ${cards.length}`;
+  navSec.textContent = cards[current].section;
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = current === cards.length - 1;
+  topbarSub.textContent = cards[current].section;
+}
+
+// ── NAVIGATION ─────────────────────────────────────────────────────────────
+function goTo(index, dir) {
+  if (isAnimating || index < 0 || index >= cards.length || index === current) return;
+  isAnimating = true;
+
+  const direction = dir || (index > current ? 'left' : 'right');
+  const exitAnim  = direction === 'left' ? 'anim-slide-left' : 'anim-slide-right';
+  const enterAnim = direction === 'left' ? 'anim-enter-left' : 'anim-enter-right';
+
+  cardEl.classList.add(exitAnim);
+
+  setTimeout(() => {
+    current = index;
+    cardEl.className = 'card';
+    renderCard(cards[current]);
+    buildDots();
+    buildPills();
+    updateNav();
+
+    // scroll card body to top
+    const body = cardEl.querySelector('.card-body');
+    if (body) body.scrollTop = 0;
+
+    requestAnimationFrame(() => {
+      cardEl.classList.add(enterAnim);
+      setTimeout(() => {
+        cardEl.classList.remove(enterAnim);
+        isAnimating = false;
+      }, 400);
+    });
+  }, 300);
+}
+
+// ── SWIPE ──────────────────────────────────────────────────────────────────
+let touchStartX = 0, touchStartY = 0, touchStartScrollTop = 0;
+let swipeBlocked = false;
+
+cardEl.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+  const body = cardEl.querySelector('.card-body');
+  touchStartScrollTop = body ? body.scrollTop : 0;
+  swipeBlocked = false;
+}, { passive: true });
+
+cardEl.addEventListener('touchmove', e => {
+  const dx = Math.abs(e.touches[0].clientX - touchStartX);
+  const dy = Math.abs(e.touches[0].clientY - touchStartY);
+  // if scrolling vertically, block swipe
+  if (dy > dx && dy > 8) swipeBlocked = true;
+}, { passive: true });
+
+cardEl.addEventListener('touchend', e => {
+  if (swipeBlocked) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 44) {
+    if (dx < 0) goTo(current + 1, 'left');
+    else goTo(current - 1, 'right');
+  }
+}, { passive: true });
+
+// ── BUTTONS ────────────────────────────────────────────────────────────────
+prevBtn.onclick = () => goTo(current - 1, 'right');
+nextBtn.onclick = () => goTo(current + 1, 'left');
+document.getElementById('home-btn').onclick = () => goTo(0, 'right');
+
+// keyboard
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(current + 1, 'left');
+  if (e.key === 'ArrowLeft')  goTo(current - 1, 'right');
+});
+
+// ── SPLASH ─────────────────────────────────────────────────────────────────
+document.getElementById('splash-btn').onclick = () => {
+  document.getElementById('splash').classList.add('hide');
+  setTimeout(() => {
+    document.getElementById('splash').style.display = 'none';
+    // show install banner after 3s on first visit
+    if (!localStorage.getItem('install-dismissed')) {
+      setTimeout(() => {
+        document.getElementById('install-banner').classList.add('show');
+      }, 3000);
+    }
+  }, 650);
+};
+
+document.getElementById('install-ok').onclick =
+document.getElementById('install-dismiss').onclick = () => {
+  document.getElementById('install-banner').classList.remove('show');
+  localStorage.setItem('install-dismissed', '1');
+};
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+renderCard(cards[0]);
+buildDots();
+buildPills();
+updateNav();
+</script>
+
+<!-- SERVICE WORKER -->
+<script>
+if ('serviceWorker' in navigator) {
+  const swCode = `
+    const CACHE = 'brooklyn-day-v1';
+    const FONTS = [
+      'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Caveat:wght@400;600&display=swap'
+    ];
+
+    self.addEventListener('install', e => {
+      e.waitUntil(
+        caches.open(CACHE).then(cache => cache.addAll(FONTS)).catch(() => {})
+      );
+      self.skipWaiting();
+    });
+
+    self.addEventListener('activate', e => {
+      e.waitUntil(
+        caches.keys().then(keys =>
+          Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+        )
+      );
+      self.clients.claim();
+    });
+
+    self.addEventListener('fetch', e => {
+      e.respondWith(
+        caches.match(e.request).then(cached => {
+          if (cached) return cached;
+          return fetch(e.request).then(res => {
+            if (!res || res.status !== 200) return res;
+            const clone = res.clone();
+            caches.open(CACHE).then(cache => cache.put(e.request, clone));
+            return res;
+          }).catch(() => cached);
+        })
+      );
+    });
+  `;
+  const blob = new Blob([swCode], { type: 'application/javascript' });
+  const swURL = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swURL).catch(() => {});
+}
+</script>
+
+</body>
+</html>
