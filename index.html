@@ -453,18 +453,18 @@
   }
   .round-name {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(1.4rem, 5vw, 1.7rem);
+    font-size: clamp(1.5rem, 5.5vw, 1.85rem);
     font-weight: 700;
-    font-style: italic;
+    font-style: normal;
     color: var(--ink);
     line-height: 1.2;
   }
   .round-desc {
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     color: var(--muted);
     margin-top: 6px;
-    font-weight: 300;
-    font-style: italic;
+    font-weight: 400;
+    font-style: normal;
   }
   .question-list { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
   .question-item {
@@ -976,7 +976,19 @@ cardEl.addEventListener('touchend', e => {
 // ── BUTTONS ────────────────────────────────────────────────────────────────
 prevBtn.onclick = () => goTo(current - 1, 'right');
 nextBtn.onclick = () => goTo(current + 1, 'left');
-document.getElementById('home-btn').onclick = () => goTo(0, 'right');
+document.getElementById('home-btn').onclick = () => {
+  goTo(0, 'right');
+  const splash = document.getElementById('splash');
+  splash.style.display = 'flex';
+  splash.style.opacity = '0';
+  splash.style.transform = 'scale(1.04)';
+  requestAnimationFrame(() => {
+    splash.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+    splash.style.opacity = '1';
+    splash.style.transform = 'scale(1)';
+    splash.classList.remove('hide');
+  });
+};
 
 // keyboard
 document.addEventListener('keydown', e => {
