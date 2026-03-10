@@ -458,7 +458,48 @@
   .bath-name { font-size: 0.84rem; font-weight: 500; color: var(--ink); }
   .bath-desc { font-size: 0.72rem; color: var(--muted); font-style: italic; }
 
-  /* Round cards */
+  /* Overview card */
+  .overview-subtitle {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    margin-top: 3px;
+  }
+  .overview-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .overview-item {
+    background: #F2EAD8;
+    border-radius: 16px;
+    padding: 13px 15px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .overview-emoji {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    line-height: 1.2;
+  }
+  .overview-content {}
+  .overview-time {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--card-accent);
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+  .overview-desc {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--ink);
+    font-weight: 300;
+  }
   .round-hero {
     text-align: center;
     padding: 4px 0 8px;
@@ -646,6 +687,18 @@
 // ── DATA ──────────────────────────────────────────────────────────────────
 const cards = [
   {
+    type: 'overview', accent: '--c1', section: 'Bakery Tour',
+    label: 'Saturday · March 14, 2026',
+    name: 'The Day',
+    subtitle: 'Brooklyn → Tribeca',
+    items: [
+      { emoji: '☕', time: 'Morning', desc: 'A pastry crawl through Brooklyn. Coffee, croissants, a proper sandwich, and a few hidden gems you\'ve never been to.' },
+      { emoji: '🍷', time: 'Evening', desc: 'A glass of wine and a charcuterie board at a Tribeca wine bar before the main event.' },
+      { emoji: '🛁', time: 'Night', desc: 'Two hours at a bathhouse. Thermal baths, a couples massage, candlelight.' },
+      { emoji: '🥂', time: 'After', desc: 'Home, wine, and a little something special for 5 years.' },
+    ]
+  },
+  {
     type: 'stop', accent: '--c1', section: 'Bakery Tour',
     label: 'Stop 01', name: 'Still Life', address: '573 Sackett St, Gowanus',
     maps: 'https://maps.google.com/?q=Still+Life+573+Sackett+St+Brooklyn+NY',
@@ -812,7 +865,28 @@ function renderCard(data) {
   const accent = `var(${data.accent})`;
   cardEl.style.setProperty('--card-accent', accent);
 
-  if (data.type === 'stop' || data.type === 'terroir') {
+  if (data.type === 'overview') {
+    cardEl.innerHTML = `
+      <div class="card-stripe"></div>
+      <div class="card-head">
+        <div class="stop-label">${data.label}</div>
+        <div class="card-name">${data.name}</div>
+        <div class="overview-subtitle">${data.subtitle}</div>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-body">
+        <div class="overview-items">
+          ${data.items.map(item => `
+            <div class="overview-item">
+              <div class="overview-emoji">${item.emoji}</div>
+              <div class="overview-content">
+                <div class="overview-time">${item.time}</div>
+                <div class="overview-desc">${item.desc}</div>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+  } else if (data.type === 'stop' || data.type === 'terroir') {
     cardEl.innerHTML = `
       <div class="card-stripe"></div>
       <div class="card-head">
