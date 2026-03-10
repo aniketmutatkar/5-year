@@ -692,8 +692,8 @@ const cards = [
     name: 'The Day',
     subtitle: 'Brooklyn → Tribeca',
     items: [
-      { emoji: '☕', time: 'Morning', desc: 'A pastry crawl through Brooklyn. Coffee, croissants, a proper sandwich, and a few hidden gems you\'ve never been to.' },
-      { emoji: '🍷', time: 'Evening', desc: 'A glass of wine and a charcuterie board at a Tribeca wine bar before the main event.' },
+      { emoji: '☕', time: 'Morning', desc: 'A pastry crawl through Brooklyn. Coffee, croissants, a proper sandwich, and a few hidden gems.' },
+      { emoji: '🍷', time: 'Evening', desc: 'A glass of wine and small bites at a wine bar before the main event.' },
       { emoji: '🛁', time: 'Night', desc: 'Two hours at a bathhouse. Thermal baths, a couples massage, candlelight.' },
       { emoji: '🥂', time: 'After', desc: 'Home, wine, and a little something special for 5 years.' },
     ]
@@ -705,7 +705,7 @@ const cards = [
     story: 'Opened September 2025, Still Life is a coffee house and working art studio in one — ceramics kiln in the back, natural light flooding the front. Partners Coffee beans, matcha, rotating pastries. The concept is simple: coffee and making things, in the same room, at the same time.',
     fact: 'They run what they call an "Art Bar" — a rotating menu of self-guided art activities you can just pick up and do while you drink your coffee. Watercolor, drawing, ceramics — it changes. You don\'t need to sign up or be good at anything. You just sit down and make something.',
     orders: [
-      { name: 'Matcha Latte', desc: 'The reason you\'re here first' },
+      { name: 'Matcha Latte', desc: 'The reason we\'re here first' },
       { name: 'Cortado', desc: 'Partners beans, clean and balanced' },
       { name: 'Seasonal Pastry', desc: 'Whatever\'s in the case' },
     ]
@@ -719,7 +719,7 @@ const cards = [
     orders: [
       { name: 'Plain Croissant', desc: 'The award-winner — near-caramelized exterior' },
       { name: 'Puff Brioche', desc: 'The neighborhood obsession' },
-      { name: 'Chocolate Croissant', desc: 'Crispy layers, not soggy' },
+      { name: 'Chocolate Croissant', desc: 'Crispy layers' },
     ]
   },
   {
@@ -765,7 +765,7 @@ const cards = [
     story: 'Chef Hervé Poussot was the pastry chef at Le Bernardin — NYC\'s only three-Michelin-star restaurant — before opening Almondine in 2004, when DUMBO was still mostly warehouses. NY Magazine named it the best bakery in New York City. Everything baked on-site daily. Popular items sell out before noon.',
     fact: 'Poussot is known for quietly handing madeleines to toddlers waiting with their parents, and for sending molten chocolate cakes to neighbors during hard times.',
     orders: [
-      { name: 'Almond Croissant', desc: 'Widely called the best in NYC — get here before noon' },
+      { name: 'Almond Croissant', desc: 'Widely called the best in NYC' },
       { name: 'Chocolate Éclair', desc: 'Bon Appétit: best in Brooklyn' },
       { name: 'Fruit Tart', desc: 'Buttery shell, custard, seasonal fruit' },
     ]
@@ -774,20 +774,25 @@ const cards = [
     type: 'stop', accent: '--c7', section: 'Evening',
     label: 'Pre-Aire · 5:45 PM', name: 'Terroir', address: '24 Harrison St, Tribeca',
     maps: 'https://maps.google.com/?q=Terroir+24+Harrison+St+New+York+NY',
-    story: 'A serious wine bar, 4 minutes from Aire. The staff are genuine sommeliers who guide you through the list — not just pour whatever. Small food menu: charcuterie, sardines, bread, cheese. Exactly the right weight before the baths. One reviewer put it simply: "no frills all thrills."',
-    fact: 'Keep it light here — one or two glasses, a charcuterie board between you. You\'re going into hot thermal baths in an hour. Save the appetite for after.',
+    story: 'Tribeca wine bar — we\'ll grab a glass of wine and some small bites before the next activity.',
+    fact: '',
+    ordersLabel: 'Top Items',
     orders: [
-      { name: 'A glass of something', desc: 'Ask the sommelier — tell them it\'s a special occasion' },
-      { name: 'Charcuterie board', desc: 'The move — light but satisfying' },
-      { name: 'Sardines + bread', desc: 'If you\'re feeling adventurous' },
+      { name: 'Burrata', desc: 'Moist ball of moist cheese, romesco, red pearl onions' },
+      { name: 'Sun & Moon Beets', desc: 'Forno & badger flame beets, moro blood orange, labneh' },
+      { name: 'Brussels Sprouts', desc: 'Chorizo, chili-lime aioli' },
+      { name: 'Smash Burger', desc: 'Caramelized onions, white cheddar, fancy sauce, house-cut fries' },
+      { name: 'Korean Fried Chicken Wings', desc: 'Toasted sesame, scallions, sambal' },
+      { name: 'Arancini', desc: 'Riso nero, fontina, parmesan, sunday sauce' },
+      { name: 'Bridget\'s Huckleberry Cheesecake', desc: 'NYC cheesecake circa 1925 + huckleberries grown by Big Al' },
     ]
   },
   {
     type: 'aire', accent: '--c8', section: 'Evening',
     label: 'The Main Event · 7:00 PM', name: 'AIRE Ancient Baths', address: '88 Franklin St, Tribeca',
     maps: 'https://maps.google.com/?q=AIRE+Ancient+Baths+88+Franklin+St+New+York+NY',
-    story: 'A restored 1883 textile factory. 16,000 sq ft of candlelit calm. Original brick, timber beams, iron columns. Thousands of flickering candles. Orange blossom in the air. Music that plays even underwater. Phones locked away at the door.',
-    package: 'Escape Together 30\' · $490/couple · 120 min\nThermal baths + 30-min couples massage in a private room + refreshing juice. Towels, robes, non-slip shoes, L\'Occitane products all provided.',
+    story: 'A restored 1883 textile factory. 16,000 sq ft of candlelit calm. Original brick, timber beams, iron columns. Thousands of flickering candles. Orange blossom in the air. Music that plays even underwater.',
+    package: 'Escape Together · 120 min\nThermal baths + 30-min couples massage in a private room + refreshing juice. Towels, robes, non-slip shoes, L\'Occitane products all provided.',
     baths: [
       { tag: 'HOT', name: 'Caldarium · 104°F', desc: 'Start here — opens everything up' },
       { tag: 'WARM', name: 'Tepidarium · 97°F', desc: 'Beneath a dramatic skylight' },
@@ -799,7 +804,7 @@ const cards = [
   {
     type: 'round', accent: '--cr1', section: '5 Years in 5 Rounds',
     roundNum: '01', label: '5 Years in 5 Rounds',
-    name: 'Remember When', desc: 'Start here. Warm up. Go back to the beginning.',
+    name: 'Remember When', desc: 'Going back to the beginning.',
     questions: [
       'What\'s your favorite memory from our first year together that you don\'t think I know is your favorite?',
       'What\'s something small from early on — a moment, a detail, a feeling — that you still think about?',
@@ -808,7 +813,7 @@ const cards = [
   {
     type: 'round', accent: '--cr2', section: '5 Years in 5 Rounds',
     roundNum: '02', label: '5 Years in 5 Rounds',
-    name: 'You, Through My Eyes', desc: 'Things you\'ve noticed but maybe never said out loud.',
+    name: 'You, Through My Eyes', desc: 'Things we\'ve noticed about each other but never said out loud.',
     questions: [
       'What\'s something about me that has genuinely surprised you over these 5 years — something you didn\'t see coming?',
       'How am I different now from the person you met — and do you think any of that is because of us?',
@@ -817,7 +822,7 @@ const cards = [
   {
     type: 'round', accent: '--cr3', section: '5 Years in 5 Rounds',
     roundNum: '03', label: '5 Years in 5 Rounds',
-    name: 'Proud Of Us', desc: 'What you\'ve built. What you got through together.',
+    name: 'Proud Of Us', desc: 'The things we don\'t say enough.',
     questions: [
       'What\'s something we built or got through together that you don\'t think we talk about enough?',
       'What\'s a moment where you thought — yeah, we\'re actually really good at this?',
@@ -826,7 +831,7 @@ const cards = [
   {
     type: 'round', accent: '--cr4', section: '5 Years in 5 Rounds',
     roundNum: '04', label: '5 Years in 5 Rounds',
-    name: 'Right Now', desc: 'Pull back to the present. This moment, this life.',
+    name: 'Right Now', desc: 'This moment. Our life as it is today.',
     questions: [
       'What\'s something about our life together right now — something ordinary — that you never want to forget?',
       'What does a regular Tuesday with me feel like — and why does that matter to you?',
@@ -835,7 +840,7 @@ const cards = [
   {
     type: 'round', accent: '--cr5', section: '5 Years in 5 Rounds',
     roundNum: '05', label: '5 Years in 5 Rounds',
-    name: 'The Next 5', desc: 'Where you\'re going. What you\'re building toward.',
+    name: 'The Next 5', desc: 'Where we\'re going. What we\'re building toward.',
     questions: [
       'What\'s one thing you want us to actually do together in the next 5 years — something we keep saying we will?',
       'Where do you want us to be in 5 years — not practically, but feeling-wise?',
@@ -903,19 +908,19 @@ function renderCard(data) {
           <div class="section-label">The Story</div>
           <p class="story">${data.story}</p>
         </div>
-        <div class="fact">
+        ${data.fact ? `<div class="fact">
           <div class="fact-label">Did you know?</div>
           <p class="fact-text">${data.fact}</p>
-        </div>
+        </div>` : ''}
         <div>
-          <div class="section-label">Order This</div>
+          <div class="section-label">${data.ordersLabel || 'Order This'}</div>
           <div class="order-list">
             ${data.orders.map((o,i) => `
               <div class="order-item">
                 <span class="order-pill">${i+1}</span>
                 <div>
                   <div class="order-name">${o.name}</div>
-                  <div class="order-desc">${o.desc}</div>
+                  ${o.desc ? `<div class="order-desc">${o.desc}</div>` : ''}
                 </div>
               </div>`).join('')}
           </div>
