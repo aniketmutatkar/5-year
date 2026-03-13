@@ -631,16 +631,27 @@
   .install-btn.primary { background: var(--paper); color: var(--ink); }
   .install-btn.dismiss { background: transparent; color: rgba(255,255,255,0.5); }
 
-  /* ── ARE WE THERE YET ── */
-  .walkq-pill {
-    background: var(--ink) !important;
-    color: var(--cream) !important;
-    font-style: italic;
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
-  .walkq-pill.active, .walkq-pill:hover {
-    background: var(--ink) !important;
-    color: var(--cream) !important;
+  .topbar-walkq {
+    background: transparent;
+    color: var(--muted);
+    border: 1.5px solid var(--rule);
+    border-radius: 50px;
+    height: 32px;
+    padding: 0 10px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    gap: 2px;
+    transition: opacity 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    flex-shrink: 0;
   }
+  .topbar-walkq:active { opacity: 0.7; }
   #walkq-overlay {
     position: fixed; inset: 0; z-index: 200;
     background: rgba(30,24,18,0.72);
@@ -651,16 +662,16 @@
   }
   #walkq-overlay.open { opacity: 1; }
   #walkq-card {
-    background: var(--cream);
+    background: var(--paper);
     border-radius: 26px;
-    padding: 40px 32px 36px;
-    margin: 24px;
-    max-width: 400px;
-    width: 100%;
+    padding: 40px 28px 36px;
+    margin: 20px;
+    max-width: 380px;
+    width: calc(100% - 40px);
     position: relative;
     display: flex; flex-direction: column; align-items: center;
     gap: 20px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     transform: translateY(20px); transition: transform 0.35s ease;
   }
   #walkq-overlay.open #walkq-card { transform: translateY(0); }
@@ -677,25 +688,21 @@
   }
   #walkq-text {
     font-family: 'Playfair Display', serif;
-    font-size: 22px; font-weight: 700;
+    font-size: clamp(18px, 5vw, 22px); font-weight: 700;
     color: var(--ink); text-align: center;
     line-height: 1.4;
-    min-height: 90px;
+    min-height: 80px;
     display: flex; align-items: center; justify-content: center;
   }
-  #walkq-count {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px; color: var(--ink); opacity: 0.35;
-    letter-spacing: 0.06em;
-  }
   #walkq-next {
-    background: var(--ink); color: var(--cream);
+    background: var(--ink); color: var(--paper);
     border: none; border-radius: 50px;
     padding: 14px 32px;
     font-family: 'DM Sans', sans-serif;
     font-size: 15px; font-weight: 600;
     cursor: pointer; letter-spacing: 0.02em;
     transition: opacity 0.2s;
+    -webkit-tap-highlight-color: transparent;
   }
   #walkq-next:active { opacity: 0.75; }
 
@@ -709,8 +716,7 @@
     <button id="walkq-close">✕</button>
     <div id="walkq-eyebrow">Are We There Yet?</div>
     <div id="walkq-text"></div>
-    <div id="walkq-count"></div>
-    <button id="walkq-next">Next Question →</button>
+    <button id="walkq-next">✦ Shuffle</button>
   </div>
 </div>
 
@@ -729,7 +735,10 @@
       <div class="topbar-title">5 Year ♡</div>
       <div class="topbar-sub" id="topbar-sub">Mar 14, 2026</div>
     </div>
-    <button class="topbar-home" id="home-btn" title="Back to start">⌂</button>
+    <div class="topbar-right">
+      <button class="topbar-walkq" id="walkq-btn" title="Are We There Yet?">💬🎲</button>
+      <button class="topbar-home" id="home-btn" title="Back to start">⌂</button>
+    </div>
   </div>
 
   <div class="section-pills" id="pills"></div>
@@ -1243,22 +1252,10 @@ const walkQuestions = [
   "What's something you want to do more of this year?"
 ];
 
-let shuffled = [];
-let qIndex = 0;
-
-function shuffleArray(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
+let lastQIndex = -1;
 
 function openWalkQ() {
-  shuffled = shuffleArray(walkQuestions);
-  qIndex = 0;
-  showQuestion();
+  pickRandom();
   const overlay = document.getElementById('walkq-overlay');
   overlay.style.display = 'flex';
   requestAnimationFrame(() => overlay.classList.add('open'));
@@ -1270,32 +1267,29 @@ function closeWalkQ() {
   setTimeout(() => { overlay.style.display = 'none'; }, 350);
 }
 
-function showQuestion() {
+function pickRandom() {
+  let idx;
+  do { idx = Math.floor(Math.random() * walkQuestions.length); }
+  while (idx === lastQIndex && walkQuestions.length > 1);
+  lastQIndex = idx;
+  showQuestion(walkQuestions[idx]);
+}
+
+function showQuestion(text) {
   const qEl = document.getElementById('walkq-text');
-  const countEl = document.getElementById('walkq-count');
   qEl.style.opacity = '0';
   qEl.style.transform = 'translateY(10px)';
   setTimeout(() => {
-    qEl.textContent = shuffled[qIndex];
-    countEl.textContent = `${qIndex + 1} of ${shuffled.length}`;
+    qEl.textContent = text;
     qEl.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
     qEl.style.opacity = '1';
     qEl.style.transform = 'translateY(0)';
   }, 150);
 }
 
-document.getElementById('walkq-next').onclick = () => {
-  qIndex = (qIndex + 1) % shuffled.length;
-  showQuestion();
-};
+document.getElementById('walkq-next').onclick = pickRandom;
 document.getElementById('walkq-close').onclick = closeWalkQ;
-
-// add pill
-const walkPill = document.createElement('button');
-walkPill.className = 'pill walkq-pill';
-walkPill.textContent = 'Are We There Yet?';
-walkPill.onclick = openWalkQ;
-document.getElementById('pills').appendChild(walkPill);
+document.getElementById('walkq-btn').onclick = openWalkQ;
 
 // ── INIT ───────────────────────────────────────────────────────────────────
 renderCard(cards[0]);
